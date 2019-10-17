@@ -180,4 +180,27 @@ void apicMapMACGridToParts(
 	knApicMapLinearMACGridToVec3(partVel, cpx, cpy, cpz, parts, vel, flags, ptype, exclude);
 }
 
+//TODO: move later,
+//this section simply demonstrates how external alg
+//alters the functions
+
+KERNEL(pts)
+void knMoveCrude(ParticleDataImpl<Vec3> &vp, BasicParticleSystem& parts)
+{
+	vp[idx] += Vec3(Real(0.1), Real(0.1), Real(0.1));
+	parts.setPos(idx, parts.getPos(idx) + Vec3(Real(0.1), Real(0.1), Real(0.1)));
+}
+
+PYTHON()
+void MoveCrude(ParticleDataImpl<Vec3> &vp, BasicParticleSystem& parts)
+{
+	knMoveCrude(vp, parts);
+}
+
+PYTHON()
+void simple_pout(BasicParticleSystem &pp)
+{
+	std::cout << pp.getPos(0).toString();
+}
+
 } // namespace
